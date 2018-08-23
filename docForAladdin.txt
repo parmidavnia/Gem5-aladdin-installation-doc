@@ -1,0 +1,124 @@
+#this doc is for ubuntu 14.04
+
+#install shadowsocks 
+sudo add-apt-repository ppa:hzwhuang/ss-qt5
+sudo apt-get update
+sudo apt-get install shadowsocks-qt5
+
+#install polipo to convert socks5 to http proxy
+sudo apt install polipo
+
+##add the following 2 lines to: /etc/polipo/config
+socksParentProxy = "localhost:1080"
+socksProxyType = socks5
+
+sudo service polipo restart
+#polipo port: 8123
+
+vim ~/.bashrc
+#add 
+proxyOn(){
+        export http_proxy="http://localhost:8123"
+        export https_proxy="http://localhost:8123"
+}
+
+proxyOff(){
+        export http_proxy=""
+        export https_proxy=""
+}
+#:q
+
+#here we mkdir gem5_aladdin in /Desktop and will config everything in that
+
+wget http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.gz
+
+tar -xzvf boost_1_55_0.tar.gz
+cd boost_1_55_0
+
+#must set in bashrc
+export BOOST_ROOT='/your/path/to/boost_1_55_0/'
+#in this case:
+#export BOOST_ROOT='/home/parmida/Desktop/gem5_aladdin/boost_1_55_0/'
+
+cd /home/parmida/Desktop/gem5_aladdin/boost_1_55_0/
+./bootstrap.sh
+
+mkdir build
+./b2 --build-dir=./build --with-graph --with-regex
+
+#check for gcc version
+gcc -v
+
+
+sudo apt install llvm-3.4
+sudo apt install llvm-3.4-dev
+
+sudo apt install clang-3.4
+sudo apt install libclang-3.4-dev
+
+wget http://zlib.net/zlib-1.2.11.tar.gz
+tar -xvzf zlib-1.2.11.tar.gz
+cd zlib-1.2.11
+./configure --prefix=/usr/local/zlib
+make
+sudo make install
+sudo apt-get install libz-dev
+
+
+cd ..
+#gem5_aladdin
+git clone https://github.com/ysshao/LLVM-Tracer
+cd LLVM-Tracer/
+
+sudo apt install cmake
+sudo apt-get install libncurses-dev
+
+mkdir build/
+cd build
+cmake ..
+
+##if cmake did not work
+##begin
+sudo updatedb
+locate libncurses.so
+locate curses.h
+#in: <cmake source dir>/Modules/FindCurses.cmake, we write these 2 lines above all code
+set(CURSES_INCLUDE_PATH "/usr/include")
+set(CURSES_LIBRARY "/usr/lib/x86_64-linux-gnu/libncurses.so")
+#the 2 above are the answers for the 2 locates in the same order
+##end
+
+make
+sudo make install
+
+
+#building aladdin
+
+git clone https://github.com/harvard-acc/gem5-aladdin
+#again in ~/.bashrc
+export ALADDIN_HOME="/home/parmida/Desktop/gem5-aladdin/gem5-aladdin"
+git submodule update --init --recursive
+
+sudo apt install protobuf-compiler
+sudo apt install python-dev
+
+sudo apt install scones
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
