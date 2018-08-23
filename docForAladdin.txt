@@ -1,32 +1,10 @@
 #this doc is for ubuntu 14.04
 
-#install shadowsocks 
-sudo add-apt-repository ppa:hzwhuang/ss-qt5
-sudo apt-get update
-sudo apt-get install shadowsocks-qt5
 
-#install polipo to convert socks5 to http proxy
-sudo apt install polipo
-
-##add the following 2 lines to: /etc/polipo/config
-socksParentProxy = "localhost:1080"
-socksProxyType = socks5
 
 sudo service polipo restart
 #polipo port: 8123
 
-vim ~/.bashrc
-#add 
-proxyOn(){
-        export http_proxy="http://localhost:8123"
-        export https_proxy="http://localhost:8123"
-}
-
-proxyOff(){
-        export http_proxy=""
-        export https_proxy=""
-}
-#:q
 
 #here we mkdir gem5_aladdin in /Desktop and will config everything in that
 
