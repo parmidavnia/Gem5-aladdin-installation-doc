@@ -74,7 +74,7 @@ sudo make install
 
 git clone https://github.com/harvard-acc/gem5-aladdin
 #again in ~/.bashrc
-export ALADDIN_HOME="/home/parmida/Desktop/gem5-aladdin/gem5-aladdin"
+export ALADDIN_HOME="path to aladdin"
 git submodule update --init --recursive
 
 sudo apt install protobuf-compiler
